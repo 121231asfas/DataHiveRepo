@@ -1,20 +1,9 @@
-function findCircleNum(M) {
-  if (!M || M.length === 0) return 0;
-  const visited = new Array(M.length).fill(false);
-  let count = 0;
-  for (let i = 0; i < M.length; i++) {
-    if (!visited[i]) {
-      dfs(M, i, visited);
-      count++;
-    }
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+  const count = Array(26).fill(0);
+  for (let i = 0; i < s.length; i++) {
+    count[s.charCodeAt(i) - 97]++;
+    count[t.charCodeAt(i) - 97]--;
   }
-  return count;
-}
-function dfs(M, i, visited) {
-  visited[i] = true;
-  for (let j = 0; j < M.length; j++) {
-    if (M[i][j] === 1 && !visited[j]) {
-      dfs(M, j, visited);
-    }
-  }
+  return count.every((c) => c === 0);
 }
