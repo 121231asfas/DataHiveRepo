@@ -1,9 +1,15 @@
-function maxProfit(prices) {
-  let minPrice = Infinity;
-  let maxProfit = 0;
-  for (const price of prices) {
-    minPrice = Math.min(minPrice, price);
-    maxProfit = Math.max(maxProfit, price - minPrice);
+function subsetsWithDup(nums) {
+  const result = [];
+  nums.sort((a, b) => a - b);
+  backtrack(0, []);
+  return result;
+  function backtrack(start, current) {
+    result.push([...current]);
+    for (let i = start; i < nums.length; i++) {
+      if (i > start && nums[i] === nums[i - 1]) continue;
+      current.push(nums[i]);
+      backtrack(i + 1, current);
+      current.pop();
+    }
   }
-  return maxProfit;
 }
