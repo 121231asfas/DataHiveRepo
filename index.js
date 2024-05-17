@@ -1,17 +1,24 @@
-function rotateRight(head, k) {
-  if (!head || k === 0) return head;
-  let length = 1;
-  let tail = head;
-  while (tail.next) {
-    length++;
-    tail = tail.next;
+function canFinish(numCourses, prerequisites) {
+  const graph = new Map();
+  const visited = new Array(numCourses).fill(0);
+  for (const [course, prerequisite] of prerequisites) {
+    if (!graph.has(course)) graph.set(course, []);
+    graph.get(course).push(prerequisite);
   }
-  k = k % length;
-  if (k === 0) return head;
-  let newTail = head;
-  for (let i = 1; i < length - k; i++) newTail = newTail.next;
-  const newHead = newTail.next;
-  newTail.next = null;
-  tail.next = head;
-  return newHead;
+  for (let i = 0; i < numCourses; i++) {
+    if (!dfs(i)) return false;
+  }
+  return true;
+  function dfs(course) {
+    if (visited[course] === 1) return false;
+    if (visited[course] === -1) return true;
+    visited[course] = 1;
+    if (graph.has(course)) {
+      for (const prerequisite of graph.get(course)) {
+        if (!dfs(prerequisite)) return false;
+      }
+    }
+    visited[course] = -1;
+    return true;
+  }
 }
